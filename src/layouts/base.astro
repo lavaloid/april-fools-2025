@@ -1,0 +1,62 @@
+---
+type Props = {
+  title: string;
+};
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./favicon-16x16.png"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body
+    style='background-image: url("data:image/gif;base64,R0lGODdhEAAQAIAAAMD/wPD/8CwAAAAAEAAQAAACKYQTpogKnFxbMDpa7W18yjhp1yGO1OidW5mSKFuaTyy585t0ctZ+EFAAADs=");'
+  >
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    margin: 0pt;
+    padding: 0pt;
+    color: black;
+    line-height: 120%;
+    image-rendering: crisp-edges;
+  }
+
+  main {
+    width: 80%;
+    background-color: white;
+    margin: 8pt auto;
+    padding-bottom: 6pt;
+    border: 2pt solid green;
+    text-align: center;
+  }
+</style>

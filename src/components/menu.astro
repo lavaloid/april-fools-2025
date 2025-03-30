@@ -1,0 +1,421 @@
+---
+
+---
+
+<div id="menuboard" class="outofboard">
+  <menu id="menupanel" style="">
+    <li id="menu_file">
+      <span>File</span><menu>
+        <li><span>I</span></li>
+        <li><span>Lost</span></li>
+        <hr />
+        <li><span>The</span></li>
+        <li><span>Game</span></li>
+      </menu>
+    </li>
+    <li id="menu_display">
+      <span>Display</span><menu>
+        <li data-config="cellsizeval">
+          <span>Cell size</span> -&gt;<menu>
+            <li data-value="19" class=""><span>Extra small</span></li>
+            <li data-value="36" class=""><span>Small</span></li>
+            <li data-value="48" class="checked"><span>Normal</span></li>
+            <li data-value="72" class=""><span>Large</span></li>
+            <li data-value="108" class=""><span>Extra large</span></li>
+            <hr />
+            <li data-popup="dispsize"><span>Set by number …</span></li>
+          </menu>
+        </li>
+        <li data-config="font">
+          <span>Font family</span> -&gt;<menu>
+            <li data-value="1" class="checked"><span>Sans-serif</span></li>
+            <li data-value="2" class=""><span>Serif</span></li>
+          </menu>
+        </li>
+        <hr />
+        <li class="checked" data-config="cursor"><span>Show cursor</span></li>
+        <li class="checked" data-config="trialmarker">
+          <span>Show trial markers</span>
+        </li>
+        <li class="checked" data-config="timer"><span>Show timer</span></li>
+        <li class="checked" data-config="adjsize">
+          <span>Auto size adjust</span>
+        </li>
+        <li class="check" data-config="fullwidth">
+          <span>Expand canvas width</span>
+        </li>
+        <hr />
+        <li data-menu-exec="toolarea">
+          <span id="menu_toolarea">Hide tool area</span>
+        </li>
+      </menu>
+    </li>
+    <li id="menu_setting">
+      <span>Setting</span><menu>
+        <li class="check" data-config="lrinvert">
+          <span>Invert mouse button</span>
+        </li>
+        <li class="checked" data-config="multierr">
+          <span>Check multiple errors</span>
+        </li>
+        <li data-config="autocheck_mode">
+          <span>Answer check</span>&nbsp;-&gt;<menu>
+            <li class="" data-value="off"><span>Manual</span></li>
+            <li class="" data-value="guarded">
+              <span>Automatic (guarded)</span>
+            </li>
+            <li class="checked" data-value="simple">
+              <span>Automatic (always)</span>
+            </li>
+          </menu>
+        </li>
+        <hr />
+        <li data-config="language">
+          <span>言語/Language</span> -&gt;<menu>
+            <li class="" data-value="ja"><span>日本語</span></li>
+            <li class="checked" data-value="en"><span>English</span></li>
+          </menu>
+        </li>
+      </menu>
+    </li>
+    <li id="menu_help">
+      <span>Help</span><menu>
+        <li class="link">
+          <span>Made you look</span>
+        </li>
+      </menu>
+    </li>
+  </menu>
+  <div id="usepanel" style="display: block;">
+    <div class="" data-config="inputmode" id="panel_inputmode">
+      <div><span>Input Mode</span> |</div>
+      <div>
+        <div class="child" data-value="auto" data-text="Please use">
+          Please use
+        </div>
+        <div class="child childsel" data-value="peke" data-text="Arrow keys">
+          Arrow keys
+        </div>
+        <div class="child" data-value="completion">Or the buttons</div>
+        <div class="child" data-value="bgcolor1">At the bottom</div>
+        <div class="child" data-value="bgcolor2">Of the page</div>
+        <div class="child" data-value="bgcolor2">To move,</div>
+        <div class="child" data-value="bgcolor2">Thank you :)</div>
+      </div>
+    </div>
+  </div>
+  <div id="checkpanel" style="display: block;">
+    <div class="config" data-config="dispmove">
+      <label>
+        <input type="checkbox" disabled checked="true" />
+        <span>Display as object moving</span>
+      </label>
+    </div>
+  </div>
+  <hr class="separator" id="separator2" />
+  <div class="config" data-config="variant">
+    <label>
+      <span style="font-style: italic">This puzzle uses variant rules</span>
+    </label>
+  </div>
+  <hr class="separator" id="separator2" />
+  <div id="timerpanel" style="display: block;">Time: 00:00</div>
+</div>
+
+<style is:global>
+  /* 管理領域 */
+  div#menuboard {
+    width: 90%;
+    max-width: 560px;
+    margin: auto;
+    margin-bottom: 8pt;
+    border: 2px #404040 solid;
+    text-align: left;
+    user-select: none;
+  }
+
+  /* メニューより下の管理領域 */
+  div#menuboard > div {
+    margin: 4pt 8pt 4pt 16pt;
+  }
+
+  div#timerpanel {
+    user-select: text;
+  }
+
+  hr.separator {
+    border: none;
+    border-top: 1px #404040 solid;
+    margin: 0pt;
+  }
+
+  div.child {
+    display: inline;
+    padding: 0 3pt;
+    cursor: pointer;
+  }
+  div.childsel:before {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 2px);
+    font-weight: bold;
+    background-color: #efefef;
+    white-space: nowrap;
+    content: attr(data-text);
+  }
+  div.childsel {
+    position: relative;
+    color: maroon;
+    background-color: #efefef;
+  }
+
+  div#usepanel > div {
+    display: flex;
+    display: -webkit-flex;
+  }
+  div#usepanel > div > div {
+    display: inline-block;
+  }
+  div#usepanel > div > div:first-child {
+    white-space: nowrap;
+    margin-right: 6px;
+    display: inline-block;
+  }
+  div#usepanel > div > div > div {
+    white-space: nowrap;
+  }
+
+  div#checkpanel input[type="checkbox"]:disabled + span {
+    color: silver;
+  }
+
+  div#usepanel div.disabled {
+    color: silver;
+  }
+  div#usepanel div.disabled div.childsel {
+    color: silver;
+    font-weight: 100;
+    background-color: white;
+  }
+
+  div#variantpanel.playeronly input[type="checkbox"] {
+    display: none;
+  }
+  div#variantpanel.playeronly
+    input[type="checkbox"]:disabled:not(:checked)
+    + span {
+    display: none;
+  }
+  div#variantpanel input[type="checkbox"]:disabled:checked + span {
+    font-style: italic;
+    color: black;
+  }
+  div#variantpanel input[type="checkbox"]:disabled:not(:checked) + span {
+    color: silver;
+  }
+
+  div#auxeditorpanel,
+  div#auxeditorpanel > div,
+  div.auxeditorclose {
+    display: flex;
+    display: -webkit-flex;
+  }
+
+  div#auxeditorpanel div.config,
+  .spacer {
+    flex-grow: 1;
+  }
+
+  div#auxeditorpanel > div > div {
+    display: inline-block;
+  }
+  div#auxeditorpanel > div > div:first-child {
+    white-space: nowrap;
+    margin-right: 6px;
+    display: inline-block;
+  }
+  div#auxeditorpanel > div > div > div {
+    margin-right: 6px;
+    white-space: nowrap;
+  }
+  div#auxeditorpanel div.childsel {
+    background-color: white;
+  }
+
+  /* ============================================================= */
+  /* メニュー領域 */
+  #menupanel {
+    display: block;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    height: 1.5em;
+    margin: 0;
+    padding: 0 0 0 2pt;
+    background: #efefef;
+    font-size: 0.95em;
+    border-bottom: silver 1px solid;
+
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* main-menu items */
+  #menupanel > li {
+    position: relative;
+    float: left;
+    margin: 0;
+    padding: 0pt 4pt;
+    height: 100%;
+    list-style: none;
+    cursor: pointer;
+  }
+  #menupanel > li:hover {
+    background: #ffcccc;
+  }
+  #menupanel > li > span {
+    color: blue;
+    line-height: 1.5;
+    font-size: 110%;
+    vertical-align: middle;
+  }
+  #menupanel > li:hover > span {
+    color: maroon;
+  }
+
+  /* submenu popup (any level) */
+  #menupanel li:hover > menu {
+    display: block;
+  }
+
+  #menupanel menu {
+    display: none;
+    position: absolute;
+    list-style-type: none;
+    background: gray;
+    background: #cccccc
+      linear-gradient(to right bottom, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    margin: 0pt;
+    padding: 3px;
+    box-shadow: 6px 6px 6px rgba(64, 64, 64, 0.5);
+
+    text-align: left;
+    cursor: default;
+  }
+
+  #menupanel > li > menu {
+    font-size: 0.9em;
+  }
+
+  /* level1, level2+ submenus */
+  #menupanel menu {
+    left: 0px;
+    top: 1.5em;
+    min-width: 132px;
+    z-index: 22;
+  }
+  #menupanel menu menu[label] {
+    left: 120px;
+    top: 0px;
+    min-width: 80px;
+    z-index: 23;
+  }
+  #menupanel menu menu {
+    left: 120px;
+    top: 0px;
+    min-width: 80px;
+    z-index: 23;
+  }
+  #menupanel menu menu[label] menu {
+    left: 72px;
+    top: 0px;
+    min-width: 80px;
+    z-index: 24;
+  }
+
+  /* submenu items */
+  #menupanel menu li {
+    display: block;
+    position: relative;
+    line-height: 1.1;
+    float: none;
+    list-style: none;
+    margin: 0pt;
+    padding: 0.2em 2pt 0.2em 4pt;
+    color: black;
+    background: white;
+    cursor: pointer;
+  }
+  #menupanel menu li:hover {
+    background: #ffcccc;
+  }
+
+  #menupanel menu li > a {
+    display: inline-block;
+    width: 100%;
+  }
+
+  #menupanel menu li:hover > span {
+    text-decoration: underline;
+  }
+  #menupanel menu li:hover > a {
+    text-decoration: underline;
+  }
+  #menupanel menu hr {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    height: 3px;
+    color: lime;
+  }
+  #menupanel menu span {
+    white-space: nowrap;
+  }
+  #menupanel menu a {
+    color: black;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* disabled submenu items */
+  #menupanel menu li.disabled {
+    background: #dfdfdf;
+    color: gray;
+    cursor: default;
+  }
+  /* (cancel hover, for unsupporting :not(.disabled)) */
+  #menupanel menu li.disabled:hover {
+    background: #dfdfdf;
+  }
+  #menupanel menu li.disabled:hover > span {
+    font-weight: 100;
+    text-decoration: none;
+  }
+
+  /* toggle submenu items */
+  #menupanel menu li.check > span,
+  #menupanel menu li[data-value] > span {
+    color: gray;
+  }
+  #menupanel menu li.checked > span {
+    color: black;
+  }
+
+  #menupanel menu li.check > span:before,
+  #menupanel menu li[data-value] > span:before {
+    display: inline-block;
+    padding: 0pt 2pt;
+    width: 1em;
+    color: white;
+    content: "_";
+  }
+  #menupanel menu li.checked > span:before {
+    display: inline-block;
+    padding: 0pt 2pt;
+    width: 1em;
+    color: black;
+    content: "+";
+  }
+</style>

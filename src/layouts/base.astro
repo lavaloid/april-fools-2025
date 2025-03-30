@@ -15,13 +15,13 @@ const { title } = Astro.props;
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./favicon-32x32.png"
+      href="/april-fools-2025/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="./favicon-16x16.png"
+      href="/april-fools-2025/favicon-16x16.png"
     />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
@@ -36,11 +36,12 @@ const { title } = Astro.props;
 </html>
 
 <style is:global>
-  html,
-  body {
-    margin: 0;
+  html {
+    /* fix iOS text size change on rotation */
+    -webkit-text-size-adjust: 100%;
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
   }
 
   body {
@@ -58,5 +59,67 @@ const { title } = Astro.props;
     padding-bottom: 6pt;
     border: 2pt solid green;
     text-align: center;
+  }
+
+  h1 {
+    margin: 16pt 0pt 24pt 0pt;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .btn {
+    display: inline;
+    margin: 2pt;
+    padding: 2pt 4pt 2pt 4pt;
+    border-radius: 4pt;
+    border: solid 1pt gray;
+
+    background: silver;
+    background: linear-gradient(to bottom, white, silver);
+    text-align: center;
+    vertical-align: middle;
+    font: 90%/1.2 sans-serif;
+    cursor: default;
+  }
+  .btn:active {
+    background: #afafaf;
+    background: linear-gradient(to bottom, #afafaf, #cccccc);
+  }
+  .btn:disabled {
+    color: silver;
+  }
+  .btn-ok {
+    background: blue;
+    background: linear-gradient(to bottom, #afafff, blue);
+    color: white;
+  }
+  .btn-ok:active {
+    background: navy;
+    background: linear-gradient(to bottom, navy, blue);
+  }
+
+  .btn-info {
+    background: #993366;
+    background: linear-gradient(to bottom, #cc6699, #993366);
+    color: white;
+  }
+  .btn-info:active {
+    background: #66334f;
+    background: linear-gradient(to bottom, #99334f, #993366);
+  }
+
+  .btn-warn:active {
+    background: #999900;
+    background: linear-gradient(to bottom, #999900, #cccc00);
+  }
+
+  .btn-danger {
+    background: red;
+    background: linear-gradient(to bottom, #ffafaf, red);
+    color: white;
+  }
+  .btn-danger:active {
+    background: #cc0000;
+    background: linear-gradient(to bottom, #cc0000, red);
   }
 </style>

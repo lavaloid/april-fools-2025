@@ -1,11 +1,45 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Base from "../layouts/base.astro";
+import Game from "../layouts/game.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<Base title="GAPPril Fools!">
+  <!-- <h1>GAPPril Fools!</h1> -->
+  <Game />
+
+  <ul id="levels">
+    {
+      Array.from({ length: 15 }).map((_, i) => (
+        <li>
+          <a href="#" class="btn">
+            {i + 1}
+          </a>
+        </li>
+      ))
+    }
+    <li></li>
+  </ul>
+</Base>
+
+<style is:global>
+  ul#levels {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    list-style: none;
+    padding: 0;
+    gap: 0.25rem;
+    max-width: 560px;
+    margin: auto;
+  }
+
+  ul#levels li a {
+    display: block;
+    padding: 1rem;
+    font-size: 3rem;
+    text-decoration: none;
+    color: inherit;
+  }
+</style>

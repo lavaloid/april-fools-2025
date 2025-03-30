@@ -1,0 +1,17 @@
+---
+import Menu from "../components/menu.astro";
+---
+
+<h1>読み込み中です...</h1>
+
+<Menu />
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      const header = document.querySelector("h1");
+
+      !!header && (header.innerHTML = "Wait, this isn't a Yajisan-Sokoban");
+    }, 1000);
+  });
+</script>

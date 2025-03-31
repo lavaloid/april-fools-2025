@@ -55,7 +55,7 @@ export class Renderer extends IBoardRenderer {
     // -------- LAYER 2: clue layer
     const clueGroup = createElement("g");
 
-    board.clues.entries().forEach(([id, { pos, val, dir }]) => {
+    for (const [id, { pos, val, dir }] of board.clues.entries()) {
       const newClue = createElement("g");
 
       // render text
@@ -161,14 +161,14 @@ export class Renderer extends IBoardRenderer {
       newClue.appendChild(newArrow);
 
       clueGroup.appendChild(newClue);
-    });
+    }
 
     canvas.appendChild(clueGroup);
 
     // -------- LAYER 3: object layer
     const objectGroup = createElement("g");
 
-    board.blocks.entries().forEach(([id, pos]) => {
+    for (const [id, pos] of board.blocks.entries()) {
       const newCell = createElement("rect") as unknown as SVGRectElement;
 
       newCell.dataset.blockId = id;
@@ -189,7 +189,7 @@ export class Renderer extends IBoardRenderer {
       setAttribute(newCell, "fill", "#bbbbbbb3");
 
       objectGroup.appendChild(newCell);
-    });
+    }
 
     const newPlayer = createElement("circle") as unknown as SVGRectElement;
 

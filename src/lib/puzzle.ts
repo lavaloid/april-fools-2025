@@ -181,6 +181,8 @@ export class BoardState {
   }
 
   checkAnswer() {
+    let isAllCorrect = true;
+
     // yajisan sokoban clue:
     // - if covered, then the clue is meaningless
     // - if not covered, counts amount of blocks in that direction
@@ -220,9 +222,13 @@ export class BoardState {
 
       clue.isValid = currentCount === val;
       this.renderer.rerenderClue(id, clue.isValid);
+
+      if (!clue.isValid) {
+        isAllCorrect = false;
+      }
     }
 
-    if (this.clues.entries().every(([_, { isValid }]) => isValid)) {
+    if (isAllCorrect) {
       this.onSolved();
     }
   }
@@ -236,9 +242,9 @@ export class BoardState {
     this.renderer.movePlayer(this.player);
 
     this.blocks = new Map(last.blocks);
-    this.blocks
-      .entries()
-      .forEach(([id, pos]) => this.renderer.moveBlock(id, pos));
+    for (const [id, pos] of this.blocks.entries()) {
+      this.renderer.moveBlock(id, pos);
+    }
 
     this.#collisionMap = new Grid(last.collisionMap.mapCell((v) => v));
   }

@@ -1,19 +1,16 @@
 ---
-import type { Puzzle } from "./puzzle";
 import Dialog from "../components/dialog.astro";
 import Menu from "../components/menu.astro";
 
-type Props = { puzzle: Puzzle };
+type Props = { puzzle?: string };
 const { puzzle } = Astro.props;
 ---
 
+<h1>読み込み中です...</h1>
+
 <Menu />
 
-<svg
-  id="game"
-  viewBox="-5 -5 100 100"
-  role="img"
-  data-puzzle={JSON.stringify(puzzle)}></svg>
+<svg id="game" viewBox="-5 -5 100 100" role="img" data-puzzle={puzzle}></svg>
 
 <div id="controls">
   <div id="arr-btns">
@@ -82,7 +79,7 @@ const { puzzle } = Astro.props;
 
 <script>
   import { Grid } from "./grid";
-  import { BoardState } from "./puzzle";
+  import { BoardState, type Cell } from "./puzzle";
   import { Renderer } from "./renderer";
   import type { Direction } from "./vector2d";
 
@@ -104,11 +101,29 @@ const { puzzle } = Astro.props;
     // setup puzzle and render initial grid
     const canvas = document.querySelector("#game") as HTMLElement;
     if (!canvas) return;
-    if (!canvas.dataset.puzzle) return;
 
-    const puzzle = JSON.parse(canvas.dataset.puzzle).cells;
+    const puzzleStr =
+      canvas.dataset.puzzle ||
+      new URLSearchParams(document.location.search).get("p");
 
-    state = new BoardState(new Grid(puzzle), renderer, onSolved);
+    if (!puzzleStr) {
+      const header = document.querySelector("h1");
+      !!header && (header.innerHTML = "Failed to read puzzle data :(");
+      return;
+    }
+
+    const puzzleSplit = puzzleStr
+      .split("\n")
+      .filter((line) => line.trim().length > 0)
+      .map(
+        (line) =>
+          line
+            .trim()
+            .match(/.{1,2}/g)!
+            .map((v) => v) as Cell[]
+      ); // idk why this works i stole it from stack overflow
+
+    state = new BoardState(new Grid(puzzleSplit), renderer, onSolved);
     canvas.style.maxWidth = `${state.puzzle.width * 50}px`;
 
     // add inputs
@@ -149,7 +164,7 @@ const { puzzle } = Astro.props;
 
     // setup reset
     const handleReset = () => {
-      state = new BoardState(new Grid(puzzle), renderer, onSolved);
+      state = new BoardState(new Grid(puzzleSplit), renderer, onSolved);
     };
     (
       document.querySelector("#btn-reset") as HTMLButtonElement

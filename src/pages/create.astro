@@ -1,0 +1,62 @@
+---
+import Base from "../layouts/base.astro";
+---
+
+<Base title="make your own Yajisan-Sokoban(?)">
+  <h1>make your own yajisan-sokoban(?)</h1>
+
+  <textarea id="puzzle"></textarea>
+
+  <output id="output"></output>
+
+  <h2>guide</h2>
+  <ul>
+    <li>Every block is 2 characters</li>
+    <li><code>..</code> is empty cell</li>
+    <li><code>##</code> is wall</li>
+    <li><code>PP</code> is player</li>
+    <li><code>--</code> is crate</li>
+    <li>
+      <code>1u</code>, <code>0d</code>, <code>3r</code>, <code>5l</code> is clue
+    </li>
+  </ul>
+</Base>
+
+<style is:global>
+  #puzzle {
+    display: block;
+    margin: auto;
+    min-height: 10rem;
+    min-width: 10rem;
+  }
+  #output {
+    display: block;
+    margin-top: 1rem;
+  }
+  ul {
+    text-align: left;
+    max-width: 20rem;
+    width: min-content;
+    margin: auto;
+    padding: 0;
+  }
+  ul li {
+    white-space: nowrap;
+  }
+  code {
+    color: brown;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.querySelector("#puzzle") as HTMLTextAreaElement;
+    const output = document.querySelector("#output") as HTMLOutputElement;
+
+    input.addEventListener("input", (e) => {
+      const encoded = encodeURIComponent(e.target?.value || "");
+      const url = `https://lavaloid.github.io/april-fools-2025/custom?p=${encoded}`;
+      output.innerHTML = `<a href="${url}" target="_blank">${url}</a>`;
+    });
+  });
+</script>

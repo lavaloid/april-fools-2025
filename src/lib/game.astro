@@ -1,0 +1,132 @@
+---
+import type { Puzzle } from "./puzzle";
+
+type Props = { puzzle: Puzzle };
+const { puzzle } = Astro.props;
+---
+
+<svg
+  id="game"
+  viewBox="-5 -5 100 100"
+  role="img"
+  data-puzzle={JSON.stringify(puzzle)}></svg>
+
+<div id="arr-btns">
+  <button class="btn" data-dir="u" id="btn-up">&uarr;</button>
+  <button class="btn" data-dir="d" id="btn-down">&darr;</button>
+  <button class="btn" data-dir="l" id="btn-left">&larr;</button>
+  <button class="btn" data-dir="r" id="btn-right">&rarr;</button>
+</div>
+<div>
+  <button class="btn" id="btn-undo">Undo (Z)</button>
+  <button class="btn" id="btn-reset">Reset (R)</button>
+</div>
+
+<style is:global>
+  #game {
+    display: block;
+    margin: auto;
+  }
+
+  #arr-btns {
+    display: grid;
+    margin: auto;
+    width: min-content;
+    grid-template-columns: 3rem 3rem 3rem;
+    grid-template-rows: 3rem 3rem;
+    grid-template-areas:
+      "x u y"
+      "l d r";
+  }
+
+  #btn-up {
+    grid-area: u;
+  }
+  #btn-down {
+    grid-area: d;
+  }
+  #btn-left {
+    grid-area: l;
+  }
+  #btn-right {
+    grid-area: r;
+  }
+
+  #btn-undo, #btn-reset {
+    padding: 1rem;
+  }
+</style>
+
+<script>
+  import { Grid } from "./grid";
+  import { BoardState } from "./puzzle";
+  import { Renderer } from "./renderer";
+  import type { Direction } from "./vector2d";
+
+  let state: BoardState;
+  const renderer = new Renderer();
+  document.addEventListener("DOMContentLoaded", () => {
+    // setup puzzle and render initial grid
+    const canvas = document.querySelector("#game") as HTMLElement;
+    if (!canvas) return;
+    if (!canvas.dataset.puzzle) return;
+
+    const puzzle = JSON.parse(canvas.dataset.puzzle).cells;
+
+    state = new BoardState(new Grid(puzzle), renderer);
+    canvas.style.maxWidth = `${state.puzzle.width * 50}px`;
+
+    // add inputs
+    document.addEventListener("keydown", (e) => {
+      const dir = {
+        ArrowUp: "u" as const,
+        ArrowDown: "d" as const,
+        ArrowLeft: "l" as const,
+        ArrowRight: "r" as const,
+      }[e.key];
+
+      if (!dir) return;
+
+      e.preventDefault();
+      state.movePlayer(dir);
+    });
+
+    document.querySelectorAll("#arr-btns > *").forEach((el) => {
+      const btn = el as HTMLButtonElement;
+      btn.addEventListener("click", () => {
+        if (!btn.dataset.dir) return;
+        state.movePlayer(btn.dataset.dir as Direction);
+      });
+    });
+
+    // setup undo
+    const handleUndo = () => {
+      state.undo();
+    };
+    (
+      document.querySelector("#btn-undo") as HTMLButtonElement
+    )?.addEventListener("click", handleUndo);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "z") {
+        handleUndo();
+      }
+    });
+
+    // setup reset
+    const handleReset = () => {
+      state = new BoardState(new Grid(puzzle), renderer);
+    };
+    (
+      document.querySelector("#btn-reset") as HTMLButtonElement
+    )?.addEventListener("click", handleReset);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "r") {
+        handleReset();
+      }
+    });
+
+    // set header
+    const header = document.querySelector("h1");
+    !!header && (header.innerHTML = "Yajisan-Sokoban (?) player");
+  });
+</script>

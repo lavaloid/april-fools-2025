@@ -50,13 +50,17 @@ export class BoardState {
     collisionMap: Grid<CollisionCell>;
   }[];
 
-  constructor(puzzle: Puzzle, renderer: IBoardRenderer) {
+  onSolved: () => void;
+
+  constructor(puzzle: Puzzle, renderer: IBoardRenderer, onSolved: () => void) {
     this.puzzle = puzzle;
     this.renderer = renderer;
 
     this.player = new Vector2D(0, 0);
     this.clues = new Map();
     this.blocks = new Map();
+
+    this.onSolved = onSolved;
 
     let tempCollisionMap: CollisionCell[][] = [];
 
@@ -172,6 +176,8 @@ export class BoardState {
     });
 
     this.renderer.movePlayer(this.player);
+
+    this.checkAnswer();
   }
 
   checkAnswer() {
@@ -208,10 +214,16 @@ export class BoardState {
           this.renderer.rerenderClue(id, false);
           continue clueLoop;
         }
+
+        currentPos = currentPos.add(Vector2D.dir(dir));
       }
 
       clue.isValid = currentCount === val;
       this.renderer.rerenderClue(id, clue.isValid);
+    }
+
+    if (this.clues.entries().every(([_, { isValid }]) => isValid)) {
+      this.onSolved();
     }
   }
 

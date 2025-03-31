@@ -1,9 +1,13 @@
 ---
 import type { Puzzle } from "./puzzle";
+import Dialog from "../components/dialog.astro";
+import Menu from "../components/menu.astro";
 
 type Props = { puzzle: Puzzle };
 const { puzzle } = Astro.props;
 ---
+
+<Menu />
 
 <svg
   id="game"
@@ -21,6 +25,8 @@ const { puzzle } = Astro.props;
   <button class="btn" id="btn-undo">Undo (Z)</button>
   <button class="btn btn-danger" id="btn-reset">Reset (R)</button>
 </div>
+
+<Dialog />
 
 <style is:global>
   #game {
@@ -52,7 +58,8 @@ const { puzzle } = Astro.props;
     grid-area: r;
   }
 
-  #btn-undo, #btn-reset {
+  #btn-undo,
+  #btn-reset {
     padding: 1rem;
   }
 </style>
@@ -63,8 +70,20 @@ const { puzzle } = Astro.props;
   import { Renderer } from "./renderer";
   import type { Direction } from "./vector2d";
 
+  let timer: number;
+  let timerSeconds: number = 0;
   let state: BoardState;
   const renderer = new Renderer();
+  const onSolved = () => {
+    clearInterval(timer);
+    const dialog = document.querySelector("#notifies");
+    dialog?.classList.remove("hidden");
+    const dialogTimer = dialog?.querySelector("#dialog-timer");
+    if (dialogTimer)
+      dialogTimer.innerHTML =
+        document.querySelector("#timerpanel")?.innerHTML ?? "";
+  };
+
   document.addEventListener("DOMContentLoaded", () => {
     // setup puzzle and render initial grid
     const canvas = document.querySelector("#game") as HTMLElement;
@@ -73,7 +92,7 @@ const { puzzle } = Astro.props;
 
     const puzzle = JSON.parse(canvas.dataset.puzzle).cells;
 
-    state = new BoardState(new Grid(puzzle), renderer);
+    state = new BoardState(new Grid(puzzle), renderer, onSolved);
     canvas.style.maxWidth = `${state.puzzle.width * 50}px`;
 
     // add inputs
@@ -114,7 +133,7 @@ const { puzzle } = Astro.props;
 
     // setup reset
     const handleReset = () => {
-      state = new BoardState(new Grid(puzzle), renderer);
+      state = new BoardState(new Grid(puzzle), renderer, onSolved);
     };
     (
       document.querySelector("#btn-reset") as HTMLButtonElement
@@ -128,5 +147,19 @@ const { puzzle } = Astro.props;
     // set header
     const header = document.querySelector("h1");
     !!header && (header.innerHTML = "Yajisan-Sokoban (?) player");
+
+    // start timer
+    timer = setInterval(() => {
+      timerSeconds++;
+      const timerEl = document.querySelector("#timerpanel");
+      if (timerEl) {
+        timerEl.innerHTML = `Time: ${Math.floor(timerSeconds / 60)
+          .toString()
+          .padStart(
+            2,
+            "0"
+          )}:${(timerSeconds % 60).toString().padStart(2, "0")}`;
+      }
+    }, 1000);
   });
 </script>

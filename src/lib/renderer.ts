@@ -81,17 +81,101 @@ export class Renderer extends IBoardRenderer {
     board.clues.entries().forEach(([id, { pos, val, dir }]) => {
       const newClue = createElement("g");
 
+      // render text
       const newText = createElement("text");
-
-      newText.innerHTML = `${val}${dir.toUpperCase()}`;
-      newText.dataset.clueId = id;
-      newText.setAttribute("x", `${pos.x * CELL_SIZE + CELL_SIZE / 2}`);
-      newText.setAttribute("y", `${pos.y * CELL_SIZE + CELL_SIZE / 2}`);
-      newText.setAttribute("font-size", "21");
+      newText.innerHTML = `${val}`;
+      newText.setAttribute("font-size", "28");
       newText.setAttribute("fill", "black");
       newText.setAttribute("text-anchor", "middle");
+      newText.dataset.clueId = id;
+
+      if (dir === "u" || dir === "d") {
+        newText.setAttribute("x", `${pos.x * CELL_SIZE + CELL_SIZE * 0.4}`);
+        newText.setAttribute("y", `${pos.y * CELL_SIZE + CELL_SIZE * 0.7}`);
+      }
+      if (dir === "l" || dir === "r") {
+        newText.setAttribute("x", `${pos.x * CELL_SIZE + CELL_SIZE / 2}`);
+        newText.setAttribute("y", `${pos.y * CELL_SIZE + CELL_SIZE * 0.65}`);
+      }
 
       newClue.appendChild(newText);
+
+      // render arrow
+      const newArrow = createElement("path");
+      newArrow.setAttribute("fill", "black");
+
+      const stemLength = CELL_SIZE * 0.45;
+      const stemWidth = CELL_SIZE * 0.04;
+      const headWidth = CELL_SIZE * 0.15;
+      const headHeight = CELL_SIZE * 0.16;
+
+      const margin = (CELL_SIZE - (stemLength + headHeight)) / 2;
+
+      if (dir === "u") {
+        newArrow.setAttribute(
+          "d",
+          `
+          M ${pos.x * CELL_SIZE + CELL_SIZE * 0.7} ${pos.y * CELL_SIZE + margin}
+          l ${headWidth / -2} ${headHeight}
+          h ${(headWidth - stemWidth) / 2}
+          v ${stemLength}
+          h ${stemWidth}
+          v ${stemLength * -1}
+          h ${(headWidth - stemWidth) / 2}
+          z
+        `
+        );
+      } else if (dir === "d") {
+        newArrow.setAttribute(
+          "d",
+          `
+            M ${pos.x * CELL_SIZE + CELL_SIZE * 0.7} ${
+            pos.y * CELL_SIZE + CELL_SIZE - margin
+          }
+            l ${headWidth / -2} ${headHeight * -1}
+            h ${(headWidth - stemWidth) / 2}
+            v ${stemLength * -1}
+            h ${stemWidth}
+            v ${stemLength}
+            h ${(headWidth - stemWidth) / 2}
+            z
+          `
+        );
+      } else if (dir === "l") {
+        newArrow.setAttribute(
+          "d",
+          `
+            M ${pos.x * CELL_SIZE + margin} ${
+            pos.y * CELL_SIZE + CELL_SIZE * 0.8
+          }
+            l ${headHeight} ${headWidth / -2}
+            v ${(headWidth - stemWidth) / 2}
+            h ${stemLength}
+            v ${stemWidth}
+            h ${stemLength * -1}
+            v ${(headWidth - stemWidth) / 2}
+            z
+          `
+        );
+      } else if (dir === "r") {
+        newArrow.setAttribute(
+          "d",
+          `
+            M ${pos.x * CELL_SIZE + CELL_SIZE - margin} ${
+            pos.y * CELL_SIZE + CELL_SIZE * 0.8
+          }
+            l ${headHeight * -1} ${headWidth / -2}
+            v ${(headWidth - stemWidth) / 2}
+            h ${stemLength * -1}
+            v ${stemWidth}
+            h ${stemLength}
+            v ${(headWidth - stemWidth) / 2}
+            z
+          `
+        );
+      }
+      newClue.appendChild(newArrow);
+
       clueGroup.appendChild(newClue);
     });
 

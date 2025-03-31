@@ -1,7 +1,7 @@
 import { Grid } from "./grid";
 import { Vector2D, type Direction } from "./vector2d";
 
-export const EMPTY = "  ";
+export const EMPTY = "..";
 export const WALL = "##";
 export const PLAYER = "PP";
 export const BLOCK = "--";

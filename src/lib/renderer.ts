@@ -107,15 +107,17 @@ export class Renderer extends IBoardRenderer {
       const stemLength = CELL_SIZE * 0.45;
       const stemWidth = CELL_SIZE * 0.04;
       const headWidth = CELL_SIZE * 0.15;
-      const headHeight = CELL_SIZE * 0.16;
+      const headHeight = CELL_SIZE * 0.17;
 
-      const margin = (CELL_SIZE - (stemLength + headHeight)) / 2;
+      const headMargin = (CELL_SIZE - (stemLength + headHeight)) / 2 - CELL_SIZE * 0.02;
 
       if (dir === "u") {
         newArrow.setAttribute(
           "d",
           `
-          M ${pos.x * CELL_SIZE + CELL_SIZE * 0.7} ${pos.y * CELL_SIZE + margin}
+          M ${pos.x * CELL_SIZE + CELL_SIZE * 0.7} ${
+            pos.y * CELL_SIZE + headMargin
+          }
           l ${headWidth / -2} ${headHeight}
           h ${(headWidth - stemWidth) / 2}
           v ${stemLength}
@@ -130,7 +132,7 @@ export class Renderer extends IBoardRenderer {
           "d",
           `
             M ${pos.x * CELL_SIZE + CELL_SIZE * 0.7} ${
-            pos.y * CELL_SIZE + CELL_SIZE - margin
+            pos.y * CELL_SIZE + CELL_SIZE - headMargin
           }
             l ${headWidth / -2} ${headHeight * -1}
             h ${(headWidth - stemWidth) / 2}
@@ -145,7 +147,7 @@ export class Renderer extends IBoardRenderer {
         newArrow.setAttribute(
           "d",
           `
-            M ${pos.x * CELL_SIZE + margin} ${
+            M ${pos.x * CELL_SIZE + headMargin} ${
             pos.y * CELL_SIZE + CELL_SIZE * 0.8
           }
             l ${headHeight} ${headWidth / -2}
@@ -161,7 +163,7 @@ export class Renderer extends IBoardRenderer {
         newArrow.setAttribute(
           "d",
           `
-            M ${pos.x * CELL_SIZE + CELL_SIZE - margin} ${
+            M ${pos.x * CELL_SIZE + CELL_SIZE - headMargin} ${
             pos.y * CELL_SIZE + CELL_SIZE * 0.8
           }
             l ${headHeight * -1} ${headWidth / -2}

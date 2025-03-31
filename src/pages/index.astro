@@ -1,45 +1,24 @@
 ---
 import Base from "../layouts/base.astro";
-import Game from "../layouts/game.astro";
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Base title="GAPPril Fools!">
-  <!-- <h1>GAPPril Fools!</h1> -->
-  <Game />
+  <h1>GAPPril Fools!</h1>
 
-  <ul id="levels">
-    {
-      Array.from({ length: 15 }).map((_, i) => (
-        <li>
-          <a href="#" class="btn">
-            {i + 1}
-          </a>
-        </li>
-      ))
-    }
-    <li></li>
+  <ul>
+    <li><a href="/april-fools-2025/1">Level 1</a></li>
   </ul>
 </Base>
 
 <style is:global>
-  ul#levels {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    list-style: none;
-    padding: 0;
-    gap: 0.25rem;
-    max-width: 560px;
+  ul {
+    width: min-content;
+    min-width: 300px;
     margin: auto;
+    text-align: left;
   }
 
-  ul#levels li a {
-    display: block;
-    padding: 1rem;
-    font-size: 3rem;
-    text-decoration: none;
-    color: inherit;
+  ul li {
+    white-space: nowrap;
   }
 </style>

@@ -2,7 +2,7 @@ import { BLOCK, BoardState, EMPTY, IBoardRenderer, WALL } from "./puzzle";
 import type { Vector2D } from "./vector2d";
 
 const CELL_SIZE = 50;
-const BLOCK_SIZE = 35;
+const BLOCK_SIZE = 38;
 const createElement = (tagName: string) =>
   document.createElementNS("http://www.w3.org/2000/svg", tagName);
 // const createAnimation = (
@@ -200,9 +200,9 @@ export class Renderer extends IBoardRenderer {
       );
       newCell.setAttribute("width", `${BLOCK_SIZE}`);
       newCell.setAttribute("height", `${BLOCK_SIZE}`);
-      newCell.setAttribute("stroke-width", "3");
+      newCell.setAttribute("stroke-width", "2.5");
       newCell.setAttribute("stroke", "black");
-      newCell.setAttribute("fill", "#aaaaaaaa");
+      newCell.setAttribute("fill", "#bbbbbbb3");
 
       objectGroup.appendChild(newCell);
     });

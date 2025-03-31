@@ -1,35 +1,12 @@
-import { BLOCK, BoardState, EMPTY, IBoardRenderer, WALL } from "./puzzle";
+import { BoardState, IBoardRenderer, WALL } from "./puzzle";
 import type { Vector2D } from "./vector2d";
 
 const CELL_SIZE = 50;
 const BLOCK_SIZE = 38;
 const createElement = (tagName: string) =>
   document.createElementNS("http://www.w3.org/2000/svg", tagName);
-// const createAnimation = (
-//   element: SVGElement,
-//   attribute: string,
-//   from: string,
-//   to: string,
-//   duration: string
-// ) => {
-//   const prevAnimation = element.querySelector(
-//     `animate[attributeName="${attribute}"]`
-//   );
-//   if (prevAnimation) {
-//     element.removeChild(prevAnimation);
-//   }
-
-//   const animation = createElement("animate");
-//   animation.setAttribute("attributeName", attribute);
-//   animation.setAttribute("attributeType", "XML");
-//   animation.setAttribute("begin", "0s");
-//   animation.setAttribute("dur", duration);
-//   animation.setAttribute("to", to);
-//   animation.setAttribute("from", from);
-//   animation.setAttribute("fill", "freeze");
-
-//   element.appendChild(animation);
-// };
+const setAttribute = (el: SVGElement, name: string, value: string) =>
+  el.setAttributeNS(null, name, value);
 
 export class Renderer extends IBoardRenderer {
   /**
@@ -47,27 +24,27 @@ export class Renderer extends IBoardRenderer {
       if (cell === WALL) {
         const newCell = createElement("rect") as unknown as SVGRectElement;
 
-        newCell.setAttribute("x", `${pos.x * CELL_SIZE}`);
-        newCell.setAttribute("y", `${pos.y * CELL_SIZE}`);
-        newCell.setAttribute("width", `${CELL_SIZE}`);
-        newCell.setAttribute("height", `${CELL_SIZE}`);
-        newCell.setAttribute("stroke-width", "2");
-        newCell.setAttribute("rx", "1");
-        newCell.setAttribute("ry", "1");
-        newCell.setAttribute("stroke", "black");
-        newCell.setAttribute("fill", "black");
+        setAttribute(newCell, "x", `${pos.x * CELL_SIZE}`);
+        setAttribute(newCell, "y", `${pos.y * CELL_SIZE}`);
+        setAttribute(newCell, "width", `${CELL_SIZE}`);
+        setAttribute(newCell, "height", `${CELL_SIZE}`);
+        setAttribute(newCell, "stroke-width", "2");
+        setAttribute(newCell, "rx", "1");
+        setAttribute(newCell, "ry", "1");
+        setAttribute(newCell, "stroke", "black");
+        setAttribute(newCell, "fill", "black");
 
         gridGroup.appendChild(newCell);
       } else {
         const newCell = createElement("rect") as unknown as SVGRectElement;
 
-        newCell.setAttribute("x", `${pos.x * CELL_SIZE}`);
-        newCell.setAttribute("y", `${pos.y * CELL_SIZE}`);
-        newCell.setAttribute("width", `${CELL_SIZE}`);
-        newCell.setAttribute("height", `${CELL_SIZE}`);
-        newCell.setAttribute("stroke-width", "1");
-        newCell.setAttribute("stroke", "black");
-        newCell.setAttribute("fill", "transparent");
+        setAttribute(newCell, "x", `${pos.x * CELL_SIZE}`);
+        setAttribute(newCell, "y", `${pos.y * CELL_SIZE}`);
+        setAttribute(newCell, "width", `${CELL_SIZE}`);
+        setAttribute(newCell, "height", `${CELL_SIZE}`);
+        setAttribute(newCell, "stroke-width", "1");
+        setAttribute(newCell, "stroke", "black");
+        setAttribute(newCell, "fill", "transparent");
 
         gridGroup.appendChild(newCell);
       }
@@ -84,35 +61,37 @@ export class Renderer extends IBoardRenderer {
       // render text
       const newText = createElement("text");
       newText.innerHTML = `${val}`;
-      newText.setAttribute("font-size", "28");
-      newText.setAttribute("fill", "black");
-      newText.setAttribute("text-anchor", "middle");
+      setAttribute(newText, "font-size", "28");
+      setAttribute(newText, "fill", "black");
+      setAttribute(newText, "text-anchor", "middle");
       newText.dataset.clueId = id;
 
       if (dir === "u" || dir === "d") {
-        newText.setAttribute("x", `${pos.x * CELL_SIZE + CELL_SIZE * 0.4}`);
-        newText.setAttribute("y", `${pos.y * CELL_SIZE + CELL_SIZE * 0.7}`);
+        setAttribute(newText, "x", `${pos.x * CELL_SIZE + CELL_SIZE * 0.4}`);
+        setAttribute(newText, "y", `${pos.y * CELL_SIZE + CELL_SIZE * 0.7}`);
       }
       if (dir === "l" || dir === "r") {
-        newText.setAttribute("x", `${pos.x * CELL_SIZE + CELL_SIZE / 2}`);
-        newText.setAttribute("y", `${pos.y * CELL_SIZE + CELL_SIZE * 0.65}`);
+        setAttribute(newText, "x", `${pos.x * CELL_SIZE + CELL_SIZE / 2}`);
+        setAttribute(newText, "y", `${pos.y * CELL_SIZE + CELL_SIZE * 0.65}`);
       }
 
       newClue.appendChild(newText);
 
       // render arrow
       const newArrow = createElement("path");
-      newArrow.setAttribute("fill", "black");
+      setAttribute(newArrow, "fill", "black");
 
       const stemLength = CELL_SIZE * 0.45;
       const stemWidth = CELL_SIZE * 0.04;
       const headWidth = CELL_SIZE * 0.15;
       const headHeight = CELL_SIZE * 0.17;
 
-      const headMargin = (CELL_SIZE - (stemLength + headHeight)) / 2 - CELL_SIZE * 0.02;
+      const headMargin =
+        (CELL_SIZE - (stemLength + headHeight)) / 2 - CELL_SIZE * 0.02;
 
       if (dir === "u") {
-        newArrow.setAttribute(
+        setAttribute(
+          newArrow,
           "d",
           `
           M ${pos.x * CELL_SIZE + CELL_SIZE * 0.7} ${
@@ -128,7 +107,8 @@ export class Renderer extends IBoardRenderer {
         `
         );
       } else if (dir === "d") {
-        newArrow.setAttribute(
+        setAttribute(
+          newArrow,
           "d",
           `
             M ${pos.x * CELL_SIZE + CELL_SIZE * 0.7} ${
@@ -144,7 +124,8 @@ export class Renderer extends IBoardRenderer {
           `
         );
       } else if (dir === "l") {
-        newArrow.setAttribute(
+        setAttribute(
+          newArrow,
           "d",
           `
             M ${pos.x * CELL_SIZE + headMargin} ${
@@ -160,7 +141,8 @@ export class Renderer extends IBoardRenderer {
           `
         );
       } else if (dir === "r") {
-        newArrow.setAttribute(
+        setAttribute(
+          newArrow,
           "d",
           `
             M ${pos.x * CELL_SIZE + CELL_SIZE - headMargin} ${
@@ -190,36 +172,40 @@ export class Renderer extends IBoardRenderer {
       const newCell = createElement("rect") as unknown as SVGRectElement;
 
       newCell.dataset.blockId = id;
-      newCell.setAttribute(
+      setAttribute(
+        newCell,
         "x",
         `${pos.x * CELL_SIZE + (CELL_SIZE - BLOCK_SIZE) / 2}`
       );
-      newCell.setAttribute(
+      setAttribute(
+        newCell,
         "y",
         `${pos.y * CELL_SIZE + (CELL_SIZE - BLOCK_SIZE) / 2}`
       );
-      newCell.setAttribute("width", `${BLOCK_SIZE}`);
-      newCell.setAttribute("height", `${BLOCK_SIZE}`);
-      newCell.setAttribute("stroke-width", "2.5");
-      newCell.setAttribute("stroke", "black");
-      newCell.setAttribute("fill", "#bbbbbbb3");
+      setAttribute(newCell, "width", `${BLOCK_SIZE}`);
+      setAttribute(newCell, "height", `${BLOCK_SIZE}`);
+      setAttribute(newCell, "stroke-width", "2.5");
+      setAttribute(newCell, "stroke", "black");
+      setAttribute(newCell, "fill", "#bbbbbbb3");
 
       objectGroup.appendChild(newCell);
     });
 
     const newPlayer = createElement("circle") as unknown as SVGRectElement;
 
-    newPlayer.setAttribute("id", "player");
-    newPlayer.setAttribute(
+    setAttribute(newPlayer, "id", "player");
+    setAttribute(
+      newPlayer,
       "cx",
       `${board.player.x * CELL_SIZE + CELL_SIZE / 2}`
     );
-    newPlayer.setAttribute(
+    setAttribute(
+      newPlayer,
       "cy",
       `${board.player.y * CELL_SIZE + CELL_SIZE / 2}`
     );
-    newPlayer.setAttribute("r", `${BLOCK_SIZE / 2}`);
-    newPlayer.setAttribute("fill", "#ff000066");
+    setAttribute(newPlayer, "r", `${BLOCK_SIZE / 2}`);
+    setAttribute(newPlayer, "fill", "#ff000066");
 
     objectGroup.appendChild(newPlayer);
 
@@ -228,17 +214,18 @@ export class Renderer extends IBoardRenderer {
     // ------ Final attr adjustment
     const gridBorder = createElement("rect") as unknown as SVGRectElement;
 
-    gridBorder.setAttribute("x", "0");
-    gridBorder.setAttribute("y", "0");
-    gridBorder.setAttribute("width", `${CELL_SIZE * board.puzzle.width}`);
-    gridBorder.setAttribute("height", `${CELL_SIZE * board.puzzle.height}`);
-    gridBorder.setAttribute("stroke-width", "4");
-    gridBorder.setAttribute("stroke", "black");
-    gridBorder.setAttribute("fill", "transparent");
+    setAttribute(gridBorder, "x", "0");
+    setAttribute(gridBorder, "y", "0");
+    setAttribute(gridBorder, "width", `${CELL_SIZE * board.puzzle.width}`);
+    setAttribute(gridBorder, "height", `${CELL_SIZE * board.puzzle.height}`);
+    setAttribute(gridBorder, "stroke-width", "4");
+    setAttribute(gridBorder, "stroke", "black");
+    setAttribute(gridBorder, "fill", "transparent");
 
     canvas.appendChild(gridBorder);
 
-    canvas.setAttribute(
+    setAttribute(
+      canvas,
       "viewBox",
       `-5 -5 ${CELL_SIZE * board.puzzle.width + 10} ${
         CELL_SIZE * board.puzzle.height + 10
@@ -266,8 +253,8 @@ export class Renderer extends IBoardRenderer {
     //   newCanvasPosY,
     //   "1s"
     // );
-    player.setAttribute("cx", newCanvasPosX);
-    player.setAttribute("cy", newCanvasPosY);
+    setAttribute(player, "cx", newCanvasPosX);
+    setAttribute(player, "cy", newCanvasPosY);
   }
 
   moveBlock(id: string, newPos: Vector2D) {
@@ -297,8 +284,8 @@ export class Renderer extends IBoardRenderer {
     //   newCanvasPosY,
     //   "1s"
     // );
-    block.setAttribute("x", newCanvasPosX);
-    block.setAttribute("y", newCanvasPosY);
+    setAttribute(block, "x", newCanvasPosX);
+    setAttribute(block, "y", newCanvasPosY);
   }
 
   rerenderClue(id: string, isValid: boolean) {}

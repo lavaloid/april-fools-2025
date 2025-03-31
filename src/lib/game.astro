@@ -15,15 +15,17 @@ const { puzzle } = Astro.props;
   role="img"
   data-puzzle={JSON.stringify(puzzle)}></svg>
 
-<div id="arr-btns">
-  <button class="btn" data-dir="u" id="btn-up">&uarr;</button>
-  <button class="btn" data-dir="d" id="btn-down">&darr;</button>
-  <button class="btn" data-dir="l" id="btn-left">&larr;</button>
-  <button class="btn" data-dir="r" id="btn-right">&rarr;</button>
-</div>
-<div>
-  <button class="btn" id="btn-undo">Undo (Z)</button>
-  <button class="btn btn-danger" id="btn-reset">Reset (R)</button>
+<div id="controls">
+  <div id="arr-btns">
+    <button class="btn" data-dir="u" id="btn-up">&uarr;</button>
+    <button class="btn" data-dir="d" id="btn-down">&darr;</button>
+    <button class="btn" data-dir="l" id="btn-left">&larr;</button>
+    <button class="btn" data-dir="r" id="btn-right">&rarr;</button>
+  </div>
+  <div id="act-btns">
+    <button class="btn" id="btn-undo">Undo (Z)</button>
+    <button class="btn btn-danger" id="btn-reset">Reset (R)</button>
+  </div>
 </div>
 
 <Dialog />
@@ -34,15 +36,28 @@ const { puzzle } = Astro.props;
     margin: auto;
   }
 
+  #controls {
+    display: flex;
+    max-width: 560px;
+    margin: auto;
+    justify-content: space-around;
+    align-items: center;
+  }
+
   #arr-btns {
     display: grid;
-    margin: auto;
     width: min-content;
     grid-template-columns: 3rem 3rem 3rem;
-    grid-template-rows: 3rem 3rem;
+    grid-template-rows: 3rem 3rem 3rem;
     grid-template-areas:
-      "x u y"
-      "l d r";
+      "v u w"
+      "l x r"
+      "y d z";
+  }
+
+  #act-btns {
+    display: flex;
+    flex-direction: column;
   }
 
   #btn-up {
